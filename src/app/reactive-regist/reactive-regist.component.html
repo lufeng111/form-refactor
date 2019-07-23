@@ -1,0 +1,10 @@
+<!-- 响应式表单 -->
+<form [formGroup]="formModel" (submit)="onSubmit()">
+  <div>用户名：<input name="username" formControlName="username"></div>
+  <div>手机号：<input name="mobile" formControlName="mobile"></div>
+  <div formGroupName="passwordsGroup">
+      <div>密码：<input name="password" formControlName="password"></div>
+      <div>确认密码：<input name="pconfirm" formControlName="pconfirm"></div>
+  </div>
+  <button type="submit">注册</button>
+</form>
