@@ -1,6 +1,20 @@
 <!-- 响应式表单 -->
 <form [formGroup]="formModel" (submit)="onSubmit()">
   <div>用户名：<input name="username" formControlName="username"></div>
+  <!--
+    这句话显示隐藏由hidden来控制是false就显示，true就隐藏，把hidden 绑定到表达式上formModel.hasError()，hasError()方法
+    接收两个参数，第一个参数是希望效验的错误，比如说必填所以就是required, 注意required不是效验器的名字，而是效验器失败以后返回的对象的key（mobile）的值
+    validators.ts文件中return valid ? null : {mobile: true};中的mobile的值，而不是效验器的名字mobileValidator的值，
+    注意：在[hidden]="formModel.hasError('required')" 中，只要key有值，不管required传回来的是true或者传回一个对象，效果都是一样的被认为是错误的，
+
+    第二个参数是username是你想检查的字段的名字，当username的required 的效验不通过时返回true，hidden就隐藏起来了，取反 那么这段代码就显示
+   -->
+  <div [hidden]="!formModel.hasError('required', 'username')">
+    用户名是必填项
+  </div>
+  <div [hidden]="!formModel.hasError('minlength', 'username')">
+    用户名最小长度是6
+  </div>
   <div>手机号：<input name="mobile" formControlName="mobile"></div>
   <div formGroupName="passwordsGroup">
       <div>密码：<input name="password" formControlName="password"></div>
