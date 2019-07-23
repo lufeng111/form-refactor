@@ -25,3 +25,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## 表单效验
+<!-- 
+1：angular的效验器
+
+2：效验效应式表单
+
+3：效验模板式表单
+
+ -->
