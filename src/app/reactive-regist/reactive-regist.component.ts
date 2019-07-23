@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { mobileValidator, equalValidator } from '../validator/validators';
 
 @Component({
   selector: 'app-reactive-regist',
@@ -34,24 +35,24 @@ export class ReactiveRegistComponent implements OnInit {
   因为mobile 字段类型是FormControl,所以修改AbstractControl为FormControl
   然后把效验器加到mobile 字段上 this.mobileValidator
   */
-  mobileValidator(control: FormControl): any{
-    var myreq = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-    let valid = myreq.test(control.value);
-    console.log("mobile的效验结果："+ valid);
-    // 当效验结果通过是true应该返回一个空null,如果没通过需要返回一个对象
-    return valid ? null : {mobile: true};
-  }
+  // mobileValidator(control: FormControl): any{
+  //   var myreq = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+  //   let valid = myreq.test(control.value);
+  //   console.log("mobile的效验结果："+ valid);
+  //   // 当效验结果通过是true应该返回一个空null,如果没通过需要返回一个对象
+  //   return valid ? null : {mobile: true};
+  // }
 
   /* passwordsGroup 自定义多个效验器的条件
 
   */
-equalValidator(group: FormGroup): any{
-  let password: FormControl = group.get("password") as FormControl;
-  let pconfirm: FormControl = group.get("pconfirm") as FormControl;
-  let valid:boolean = (password.value === pconfirm.value);
-  console.log("密码的效验结果："+ valid);
-  return valid ? null : {equal: true};
-}
+// equalValidator(group: FormGroup): any{
+//   let password: FormControl = group.get("password") as FormControl;
+//   let pconfirm: FormControl = group.get("pconfirm") as FormControl;
+//   let valid:boolean = (password.value === pconfirm.value);
+//   console.log("密码的效验结果："+ valid);
+//   return valid ? null : {equal: true};
+// }
 
 
 
@@ -70,11 +71,13 @@ equalValidator(group: FormGroup): any{
    this.formModel = fb.group({
     //  username: ['', Validators.required], 只有一个效验器的写法，required现在username是必填的
      username: ['', [Validators.required, Validators.minLength(6)]], // 多个效验器的写法，
-     mobile: ['', this.mobileValidator],
+    //  mobile: ['', this.mobileValidator],
+     mobile: ['', mobileValidator],
      passwordsGroup: fb.group({
        password: [''],
        pconfirm: [''],
-     },{validator: this.equalValidator})
+    //  },{validator: this.equalValidator})
+     },{validator: equalValidator})
    })
   // fb.group 还可以添加一个参数，用于校验fb.group
   // },{})
@@ -82,12 +85,24 @@ equalValidator(group: FormGroup): any{
 
   onSubmit(){
     // 当username满足所有效验器的规则时，这个属性就是true ,否则就是false
-    let isValid: Boolean = this.formModel.get('username').valid;
-    console.log("username效验结果"+isValid);
+    // let isValid: Boolean = this.formModel.get('username').valid;
+    // console.log("username效验结果"+isValid);
     // 这个效验结果，还可以通过formControl的error属性获得效验器返回的错误信息
-    let errors:any = this.formModel.get("username").errors;
-    console.log("username效验的错误信息是"+JSON.stringify(errors));
-    console.log(this.formModel.value);
+    // let errors:any = this.formModel.get("username").errors;
+    // console.log("username效验的错误信息是"+JSON.stringify(errors));
+    // console.log(this.formModel.value);
+
+
+    /*
+    通过formModel来判断整个表单中所有的值是不是都是合法的
+    this.formModel.valid中的valid 只要有一个valid是false那么就是false，
+
+    */
+    if(this.formModel.valid){
+      console.log(this.formModel.value)
+    }
+
+
   }
 
 
