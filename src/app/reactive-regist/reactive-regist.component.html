@@ -21,6 +21,11 @@
   </div>
   <div formGroupName="passwordsGroup">
       <div>密码：<input name="password" formControlName="password"></div>
+      <!-- 二级效验包裹在一级效验中，需要用数组包裹 -->
+      <div [hidden]="!formModel.hasError('minlength', ['passwordsGroup','password'])">
+        用户名最小长度是6
+      </div>
+
       <div>确认密码：<input name="pconfirm" formControlName="pconfirm"></div>
       <div [hidden]="!formModel.hasError('equal', 'passwordsGroup')">
         密码和确认密码不匹配

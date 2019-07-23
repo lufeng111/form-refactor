@@ -74,8 +74,8 @@ export class ReactiveRegistComponent implements OnInit {
     //  mobile: ['', this.mobileValidator],
      mobile: ['', mobileValidator],
      passwordsGroup: fb.group({
-       password: [''],
-       pconfirm: [''],
+       password: ['', Validators.minLength(6)],
+       pconfirm: ['',Validators.minLength(6)],
     //  },{validator: this.equalValidator})
      },{validator: equalValidator})
    })
