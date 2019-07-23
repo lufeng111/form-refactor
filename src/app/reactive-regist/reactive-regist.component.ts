@@ -24,10 +24,35 @@ export class ReactiveRegistComponent implements OnInit {
   get('username') username 属性，判断这个属性的valid
 
   */
-//  xxxx(control: AbstractControl): {[key: string]: any}{
-//    Validators.required
-//    return null;
-//  }
+//  xxx(control: AbstractControl): {[key: string]: any}{
+//   Validators.required
+//   return null;
+// }
+
+
+  /* mobile 的自定义效验器， 自定义一个效验条件
+  因为mobile 字段类型是FormControl,所以修改AbstractControl为FormControl
+  然后把效验器加到mobile 字段上 this.mobileValidator
+  */
+  mobileValidator(control: FormControl): any{
+    var myreq = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    let valid = myreq.test(control.value);
+    console.log("mobile的效验结果："+ valid);
+    // 当效验结果通过是true应该返回一个空null,如果没通过需要返回一个对象
+    return valid ? null : {mobile: true};
+  }
+
+  /* passwordsGroup 自定义多个效验器的条件
+
+  */
+equalValidator(group: FormGroup): any{
+  let password: FormControl = group.get("password") as FormControl;
+  let pconfirm: FormControl = group.get("pconfirm") as FormControl;
+  let valid:boolean = (password.value === pconfirm.value);
+  console.log("密码的效验结果："+ valid);
+  return valid ? null : {equal: true};
+}
+
 
 
 
@@ -45,11 +70,11 @@ export class ReactiveRegistComponent implements OnInit {
    this.formModel = fb.group({
     //  username: ['', Validators.required], 只有一个效验器的写法，required现在username是必填的
      username: ['', [Validators.required, Validators.minLength(6)]], // 多个效验器的写法，
-     mobile: [''],
+     mobile: ['', this.mobileValidator],
      passwordsGroup: fb.group({
        password: [''],
        pconfirm: [''],
-     })
+     },{validator: this.equalValidator})
    })
   // fb.group 还可以添加一个参数，用于校验fb.group
   // },{})
