@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, AbstractControl, Validators } from '@angular/forms';
-import { mobileValidator, equalValidator } from '../validator/validators';
+import { mobileValidator, equalValidator, mobileAsyncValidator } from '../validator/validators';
 
 @Component({
   selector: 'app-reactive-regist',
@@ -72,7 +72,7 @@ export class ReactiveRegistComponent implements OnInit {
     //  username: ['', Validators.required], 只有一个效验器的写法，required现在username是必填的
      username: ['', [Validators.required, Validators.minLength(6)]], // 多个效验器的写法，
     //  mobile: ['', this.mobileValidator],
-     mobile: ['', mobileValidator],
+     mobile: ['', mobileValidator, mobileAsyncValidator],
      passwordsGroup: fb.group({
        password: ['', Validators.minLength(6)],
        pconfirm: ['',Validators.minLength(6)],
