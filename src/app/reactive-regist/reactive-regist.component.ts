@@ -107,10 +107,6 @@ export class ReactiveRegistComponent implements OnInit {
 
 
 
-
-
-
-
   // formModel: FormGroup;
   // constructor() {
   //   this.formModel = new FormGroup({

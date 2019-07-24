@@ -1,0 +1,9 @@
+// 所有无效的字段都会显示红色边框，这样绑定会出现所有有ng-invalid 的都是一样的样式，
+.ng-invalid {
+  border: 1px solid red
+}
+//  如果需要有自己特定的样式
+.hasError {
+  border: 1px solid green;
+  color: red;
+}

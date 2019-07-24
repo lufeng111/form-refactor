@@ -1,6 +1,7 @@
 <!-- 响应式表单 -->
 <form [formGroup]="formModel" (submit)="onSubmit()">
-  <div>用户名：<input name="username" formControlName="username"></div>
+  <!-- 意思是这个用户名无效，并且已经被碰过的 -->
+  <div>用户名：<input [class.hasError]="formModel.get('username').invalid && formModel.get('username').touched" name="username" formControlName="username"></div>
   <!--
     这句话显示隐藏由hidden来控制是false就显示，true就隐藏，把hidden 绑定到表达式上formModel.hasError()，hasError()方法
     接收两个参数，第一个参数是希望效验的错误，比如说必填所以就是required, 注意required不是效验器的名字，而是效验器失败以后返回的对象的key（mobile）的值
@@ -9,16 +10,33 @@
 
     第二个参数是username是你想检查的字段的名字，当username的required 的效验不通过时返回true，hidden就隐藏起来了，取反 那么这段代码就显示
    -->
-  <div [hidden]="!formModel.hasError('required', 'username')">
-    用户名是必填项
-  </div>
-  <div [hidden]="!formModel.hasError('minlength', 'username')">
-    用户名最小长度是6
-  </div>
+
+  <!-- 状态字段
+    这句话的意思是，当表单的valid 是true,就是表单效验有效的整个表单效验是通过的，或者用户从来没碰过untouched这个字段的时候
+    要把错误信息隐藏起来，只有在用户名username 合法，并且用户已经访问这个字段的时候，才显示错误信息，
+
+  -->
+   <div [hidden]="formModel.get('username').valid || formModel.get('username').untouched">
+      <div [hidden]="!formModel.hasError('required', 'username')">
+          用户名是必填项
+        </div>
+        <div [hidden]="!formModel.hasError('minlength', 'username')">
+          用户名最小长度是6
+        </div>
+   </div>
+
   <div>手机号：<input name="mobile" formControlName="mobile"></div>
-  <div [hidden]="!formModel.hasError('mobile', 'mobile')">
-    请输入正确的手机号
+  <!-- 当手机号被修改或者效验不通过就显示错误信息 -->
+  <div [hidden]="formModel.get('mobile').valid || formModel.get('mobile').pristine"s>
+      <div [hidden]="!formModel.hasError('mobile', 'mobile')">
+          请输入正确的手机号
+        </div>
+        <!-- 延迟5秒，显示正在效验是否合法 -->
+        <div [hidden]="!formModel.get('mobile').pending ">
+          正在效验手机的合法性
+        </div>
   </div>
+
   <div formGroupName="passwordsGroup">
       <div>密码：<input name="password" formControlName="password"></div>
       <!-- 二级效验包裹在一级效验中，需要用数组包裹 -->

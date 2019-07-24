@@ -35,3 +35,14 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 3：效验模板式表单
 
  -->
+## 表单效验的状态字段
+<!-- 
+touched和 untouched: 这两个字段用来判断用户是否访问过一个字段，也就是这个字段是否获取到焦点，如果获取到焦点touched就是true, untouched 就是false, 反之，
+
+
+pristine和dirty：如果一个字段的值从来没被修改过，pristine 就是true, dirty就是false
+
+pending: 正在效验是否合法
+比如手机号： 在修改过程中，会根据修改的值，不断地更改附加的一些样式，如：class="ng-dirty ng-valid ng-touched" ，可以根据这些样式来定义这些字段显示的样式，
+
+ -->
