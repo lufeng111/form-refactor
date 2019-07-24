@@ -22,5 +22,6 @@ export function equalValidator(group: FormGroup): any{
   let pconfirm: FormControl = group.get("pconfirm") as FormControl;
   let valid:boolean = (password.value === pconfirm.value);
   console.log("密码的效验结果："+ valid);
-  return valid ? null : {equal: true};
+  // return valid ? null : {equal: true};  下面把错误消息通过效验器提供，而不是在模板上控制显示隐藏
+  return valid ? null : {equal: {descs: "密码和确认密码要保持一致"}};
 }
