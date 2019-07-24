@@ -1,9 +1,38 @@
-<form #myForm="ngForm" (onSubmit)="onSubmit(myForm.value)">
-  <div>用户名：<input ngModel name="username" type="text"></div>
-  <div>手机号：<input ngModel name="mobile" type="number"></div>
-  <div ngModelGroup="passwordsGroup">
-      <div>密码：<input ngModel name="password" type="password"></div>
+<!--
+  默认效验器也有对应的指令,比如required，这个required不是纯html的required，他是angular的一个指令，为了让浏览器它是angular的指令不是html的属性，
+  避免干扰angular的效验，所以在form中加上 novalidate ：不要启动浏览器默认的表单效验，
+
+  在模板式表单中，是不能在模板中使用字段（valid,touched等）的状态属性的，因为模板式表单与响应式表单不同，他的模型的值，状态的变更等是异步的，而且很难控制
+  如果使用同步的方式，访问这些字段就会报错，如果想在模板式表单中访问这些属性,首先需要在input标签上做一个事件绑定(input)="onMobileInput(myForm)" ,
+  在事件绑定这里用一个方法onMobileInput(), 随时更新控制器上的两个值，然后把这两个值更新到控制器的模板上，
+
+
+ -->
+<form #myForm="ngForm" (onSubmit)="onSubmit(myForm.value, myForm.valid)" novalidate>
+  <div>用户名：<input ngModel required minlength="6" name="username" type="text" (input)="onMobileInput(myForm)"></div>
+  <div [hidden]="mobileValid || mobileUntouched">
+      <div [hidden]="!myForm.form.hasError('required','username')">
+           用户名是必填项
+        </div>
+        <div [hidden]="!myForm.form.hasError('minlength','username')">
+           用户名最小长度是6
+        </div>
+  </div>
+
+  <!-- 2：在页面上加上mobile 指令， -->
+  <div>手机号：<input ngModel mobile name="mobile" type="number"></div>
+  <div [hidden]="!myForm.form.hasError('mobile','mobile')">
+       请输入正确的手机号码
+    </div>
+  <div ngModelGroup="passwordsGroup" equal>
+      <div>密码：<input ngModel minlength="6" name="password" type="password"></div>
+      <div [hidden]="!myForm.form.hasError('minlength',['passwordsGroup','password'])">
+           密码最小长度是6
+        </div>
       <div>确认密码：<input ngModel name="pconfirm" type="password"></div>
+      <div [hidden]="!myForm.form.hasError('equal',['passwordsGroup','password'])">
+           {{myForm.form.getError('equal','passwordsGroup')?.descs}}
+        </div>
   </div>
   <button type="submit">注册</button>
 </form>

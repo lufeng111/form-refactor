@@ -7,13 +7,17 @@ import { AppComponent } from './app.component';
 import { TemplateFormComponent } from './template-form/template-form.component';
 import { ReacyiveFormComponent } from './reacyive-form/reacyive-form.component';
 import { ReactiveRegistComponent } from './reactive-regist/reactive-regist.component';
+import { MobileValidatorDirective } from './directives/mobile-validator.directive';
+import { EqualValidatorDirective } from './directives/equal-validator.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     TemplateFormComponent,
     ReacyiveFormComponent,
-    ReactiveRegistComponent
+    ReactiveRegistComponent,
+    MobileValidatorDirective,
+    EqualValidatorDirective
   ],
   imports: [
     BrowserModule,
